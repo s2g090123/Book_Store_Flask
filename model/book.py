@@ -1,4 +1,5 @@
 from common.database import db
+from model import book_store
 
 class Book(db.Model):
     __tablename__ = "book"
@@ -34,3 +35,14 @@ class Book(db.Model):
     @classmethod
     def get_by_price(cls, price):
         return cls.query.filter(cls.price <= price).order_by(cls.price, cls.bookName).all()
+
+    @classmethod
+    def get_by_key_word(cls, key_word):
+        search = "%{}%".format(key_word)
+        return cls.query.filter(cls.bookName.like(search)).order_by(cls.bookName).all()
+
+    @classmethod
+    def get_price_by_store_name_book_name(cls, store_name, book_name):
+        return db.session.query(cls.price).join(book_store.BookStore, cls.bookStoreId == book_store.BookStore.id). \
+            filter(book_store.BookStore.storeName == store_name, cls.bookName == book_name).first()
+

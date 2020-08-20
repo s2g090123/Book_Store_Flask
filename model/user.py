@@ -7,10 +7,9 @@ class User(db.Model):
     cashBalance = db.Column(db.Float, nullable=False)
     purchaseHistory = db.relationship('PurchaseHistory', backref='user', lazy=True)
 
-    def __init__(self, name, cashBalance, purchaseHistory):
+    def __init__(self, name, cashBalance):
         self.name = name
         self.cashBalance = cashBalance
-        self.purchaseHistory = purchaseHistory
 
     def insert(self):
         db.session.add(self)
@@ -26,3 +25,13 @@ class User(db.Model):
     @classmethod
     def get_by_name(cls, name):
         return cls.query.filter_by(name=name).first()
+
+    @classmethod
+    def get_by_id(cls, id):
+        return cls.query.filter_by(id=id).first()
+
+    @classmethod
+    def get_all(cls):
+        return cls.query.all()
+
+    

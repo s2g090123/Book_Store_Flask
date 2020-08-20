@@ -55,5 +55,10 @@ class BookStore(db.Model):
                 filter(Book.price <= price).group_by(cls.id).having(book_count < count).all()
 
     @classmethod
+    def get_all_by_key_word(cls, keyword):
+        search = "%{}%".format(keyword)
+        return cls.query.filter(cls.storeName.like(search)).order_by(cls.storeName).all()
+
+    @classmethod
     def get_all(cls):
         return cls.query.all()

@@ -71,6 +71,33 @@ def get_by_book_price_count():
         "result": store_list
     }
 
+@app.route('/api/bookstore/search', methods=["GET"])
+def get_by_key_word():
+    key_word = request.args.get('keyword', type=str)
+    stores = BookStore.get_all_by_key_word(key_word)
+    store_list = []
+    for store in stores:
+        store_list.append(book_store_schema.dump(store))
+    return {
+        "result": store_list
+    }
+
+@app.route('/api/bookstore/update', methods=["PUT"])
+def update_book_store_by_name():
+    params = get_param()
+    query = BookStore.get(params['oldname'])
+    if query is None:
+        return {
+            'result': 'book store is not found.'
+        }
+    query.storeName = params['newname']
+    query.update()
+    store = book_store_schema.dump(query)
+    return {
+        "result": store
+    }
+
+
 def get_param():
     data = request.get_json(force=False)
     if data is None:

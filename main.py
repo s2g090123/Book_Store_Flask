@@ -13,7 +13,7 @@ api = Api(app)
 database.init_db(app)
 marshmollow.init_ma(app)
 
-from api import book_store_api, book_api
+from api import book_store_api, book_api, user_api
 
 if __name__ == "__main__":
     migrate = Migrate(app, database.db)

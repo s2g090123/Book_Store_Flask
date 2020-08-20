@@ -1,7 +1,8 @@
 from common.database import db
 
 class PurchaseHistory(db.Model):
-    __tablename__ = 'puchage_history'
+    __tablename__ = 'puchase_history'
+    id = db.Column(db.Integer, primary_key=True)
     userId = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     bookName = db.Column(db.String(200), nullable=False)
     storeName = db.Column(db.String(200), nullable=False)
@@ -29,3 +30,7 @@ class PurchaseHistory(db.Model):
     @classmethod
     def get_by_user_id(cls, userId):
         return cls.query.filter_by(userId=userId).all()
+
+    @classmethod
+    def get_most_popular_store_name(cls):
+        pass
